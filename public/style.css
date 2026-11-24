@@ -8,8 +8,9 @@ kbd, textarea {font-family:inherit;}
   box-sizing: border-box;
 }
 body {
+  --dashboard-background: light-dark(#f8f9f6, #151c19);
   margin: 0;
-  background: light-dark(#f8f9f6, #151c19);
+  background: var(--dashboard-background);
   color: light-dark(#232e2a, #edf4ed);
   font:
     14px var(--ui-font);
@@ -161,20 +162,20 @@ kbd {
   min-height: 0;
   overflow-anchor: none;
 }
-.tab-table { width:100%; min-width:850px; table-layout:fixed; border-spacing:0; background:light-dark(#e7ebe5,#101612); }
+.tab-table { width:100%; min-width:850px; table-layout:fixed; border-spacing:0; background:transparent; }
 .tab-table thead {position:sticky;top:0;z-index:2;background:light-dark(#edf2ec, #202c25);}
 .tab-table thead th {height:32px;text-align:left;color:light-dark(#516458, #b0c4b6);font-size:11px;font-weight:650;padding:0 5px;border-bottom:1px solid light-dark(#cad5cb, #48604e);}
 .tab-table tbody td {padding:0;}
-.tab-table .row {height:48px;cursor:pointer;--tab-surface:light-dark(#fff, #222c26);}
+.tab-table .row {height:48px;cursor:pointer;--tab-surface:transparent;}
 .tab-table .row td {background:var(--tab-surface);padding:0 5px;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .tab-table .row td.tab-time{white-space:normal;font-size:11px}
 .tab-table .name strong{font-size:13px}
 .tab-table .name span{font-size:11px;margin-top:2px}
-.tab-table .window-section {height:48px;padding:0 10px 0 2px;text-align:left;background-color:light-dark(#e3ece2, #2b3e30);color:light-dark(#355640, #c0eacb);font-size:13px;}
+.tab-table .window-section {height:48px;padding:0 10px 0 2px;text-align:left;background-color:light-dark(#fff, #2b3e30);color:light-dark(#355640, #c0eacb);font-size:13px;}
 #byWindow[aria-checked="true"] {background:light-dark(#d3e5d3, #365840);border-color:light-dark(#78977c, #95d5aa);color:light-dark(#234a30, #c0eacb);}
 .tab-table .row:hover,
 .tab-table .row.cursor {
-  --tab-surface: light-dark(#edf2eb, #354438);
+  --tab-surface: light-dark(#e7eee5, #354438);
 }
 .tab-table .row.selected {
   --tab-surface: light-dark(#e0eddf, #365840);
@@ -624,7 +625,7 @@ body:has(#panel:not([hidden]))::after,
 .tab-table .window-section.selected-window {background-color:light-dark(#c9dfef,#314b61);color:light-dark(#24435d,#dfedfa);outline:2px solid light-dark(#537fa2,#89afcd);outline-offset:-2px;user-select:none;}
 
 /* Keep the window separator visible across sticky, starred and hover backgrounds. */
-.tab-table th.window-boundary {border-top:4px solid light-dark(#e7ebe5,#101612);background-clip:padding-box;}
+.tab-table th.window-boundary {border-top:4px solid var(--dashboard-background);background-clip:padding-box;}
 
 .review-count {display:inline-grid;place-items:center;vertical-align:middle;margin-inline-start:5px;min-width:16px;height:16px;padding-inline:4px;border-radius:99px;background:light-dark(#934515,#f1ba84);color:light-dark(white,#38220e);font:650 10px/1 var(--ui-font);font-variant-numeric:tabular-nums;}
 
@@ -660,7 +661,7 @@ body:has(#panel:not([hidden]))::after,
 #bar button > .header-icon {width:14px;height:14px;margin-inline-end:5px;}
 
 .tab-table .window-section:has(.window-star[aria-pressed="true"]) {
-  background-color:transparent;
+  background-color:light-dark(#fff,transparent);
   border-radius:6px;
 }
 .window-section:has(.window-star[aria-pressed="true"]):not(.pinned-window) {position:relative;}

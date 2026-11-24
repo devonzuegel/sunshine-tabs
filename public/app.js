@@ -317,8 +317,8 @@ function editableName(label, kind, openEditor, windowId, key) {
   }
   addIcon("✎", "Rename " + kind, key ? () => startWindowEdit(windowId, key) : openEditor);
   if (windowId != null) {
-    const bulb = addIcon(headerIcon("bulb"), "Suggest window names", () => suggestWindowNames(windowId, key));
-    bulb.dataset.suggest = "";
+    const suggestions = addIcon(headerIcon("suggestName"), "Suggest 4 window names", () => suggestWindowNames(windowId, key));
+    suggestions.dataset.suggest = "";
   }
   return wrap;
 }
@@ -415,7 +415,7 @@ const headerPaths = {
   copies: "M5.5 5.5h8v8h-8z M10.5 3V2.5h-8v8H3",
   archive: "M2 3h12v3H2z M3 6v7h10V6 M6.5 8.5h3",
   minimize: "M3 3h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z M5.5 10h5",
-  bulb: "M6 11c0-1.8-2.5-2.5-2.5-5a4.5 4.5 0 0 1 9 0c0 2.5-2.5 3.2-2.5 5z M6.5 13h3 M7.5 15h1",
+  suggestName: "M8 3H2v6l5.5 5.5 6-6-2-2 M5 6h.1 M12 1l.9 2.1L15 4l-2.1.9L12 7l-.9-2.1L9 4l2.1-.9z",
   pin: "M5 2h6l-1 2v3l2 2v1H4V9l2-2V4z M8 10v4",
   title: "M4 2.5h6l3 3v8H4z M10 2.5v3h3 M6 8h5 M6 10.5h4",
   site: "M14 8A6 6 0 1 1 2 8a6 6 0 0 1 12 0z M2 8h12 M8 2c-3.5 3-3.5 9 0 12 3.5-3 3.5-9 0-12z",
