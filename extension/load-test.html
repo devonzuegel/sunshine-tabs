@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Sunshine Tabs workload test</title>
+  <link rel="stylesheet" href="load-test.css" />
+  <h1>500-tab workload check</h1>
+  <p>
+    This creates disposable blank tabs in test windows until Chrome reaches 500
+    normal tabs. Cleanup closes only the generated blank tabs that still have
+    their test URLs.
+  </p>
+  <button id="create">Prepare 500-tab workload</button>
+  <button id="clear">Clean up test tabs</button>
+  <p id="status" role="status"></p>
+  <script src="load-test.js"></script>
+</html>

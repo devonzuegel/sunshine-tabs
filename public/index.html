@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sunshine Tabs · Chrome dashboard</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="workspace-line">
+        <nav id="nav" aria-label="Workspace"></nav>
+        <div class="settings-tools">
+          <span id="connection" role="img" tabindex="0" aria-label="Connecting to Chrome" aria-describedby="connection-tip"></span>
+          <span id="connection-tip" role="tooltip">Connecting to Chrome…</span>
+          <button id="settings-open" aria-label="Settings" title="Settings" aria-haspopup="dialog">⚙</button>
+        </div>
+      </div>
+      <div class="views-line">
+        <span class="caption" id="views-label">Saved views</span>
+        <nav id="views" aria-labelledby="views-label"></nav>
+      </div>
+    </header>
+    <dialog id="settings" aria-labelledby="settings-title">
+      <div class="panelhead"><h2 id="settings-title">Settings</h2><button id="settings-close" aria-label="Close settings" title="Close (Esc)" autofocus>×</button></div>
+      <p id="connection-detail" role="status"></p>
+      <div class="settings-row"><span id="theme-label">Theme</span><div id="theme" role="group" aria-labelledby="theme-label">
+        <button data-theme="system">System</button><button data-theme="light">Light</button><button data-theme="dark">Dark</button>
+      </div></div>
+      <label class="settings-row">Show Site column <input type="checkbox" role="switch" id="show-site"></label>
+      <button id="help" title="Keyboard shortcuts (?)" aria-keyshortcuts="Shift+/" aria-label="Keyboard shortcuts">Keyboard shortcuts <kbd>?</kbd></button>
+    </dialog>
+    <main>
+      <h1 id="heading" hidden></h1>
+      <section id="controls">
+        <div class="view-zones">
+          <section class="view-zone filter-zone" aria-labelledby="filter-zone-title">
+            <h2 id="filter-zone-title"><svg class="zone-icon" viewBox="0 0 22 22" aria-hidden="true" focusable="false"><path d="M2 3h16l-6 7v6l-4 2v-8z"/></svg>Filter tabs</h2>
+            <div class="zone-controls"><div id="age" class="zone-choices" role="group" aria-label="Filter tabs by time">
+                <button type="button" data-value="">Any time</button>
+                <button type="button" data-value="today">Opened today</button>
+                <button type="button" data-value="7">Untouched 7 days</button>
+                <button type="button" data-value="30">Untouched 30 days</button>
+              </div></div>
+          </section>
+          <section class="view-zone sort-zone" aria-labelledby="sort-zone-title">
+            <h2 id="sort-zone-title"><svg class="zone-icon" viewBox="0 0 22 22" aria-hidden="true" focusable="false"><path d="M2 4h12 M2 9h8 M2 14h4 M16 7v11m-3-3 3 3 3-3"/></svg>Sort tabs</h2>
+            <div class="zone-controls"><div id="sort" class="zone-choices" role="group" aria-label="Sort tabs by">
+                <button type="button" data-value="touched">Last touched</button>
+                <button type="button" data-value="opened">Opened</button>
+                <button type="button" data-value="order">Chrome order</button>
+                <button type="button" data-value="title">Title / URL</button>
+                <button type="button" data-value="site">Site</button>
+                <button type="button" data-value="window">Window</button>
+                <button type="button" data-value="group">Tab group</button>
+              </div>
+              <div id="direction-field" inert>
+                <span id="direction-label">Sort direction</span>
+                <div id="direction" role="group" aria-labelledby="direction-label"><button data-value="-1">Newest first</button><button data-value="1">Oldest first</button></div>
+              </div>
+            </div>
+          </section>
+          <section class="view-zone layout-zone" aria-labelledby="layout-zone-title">
+            <h2 id="layout-zone-title"><svg class="zone-icon" viewBox="0 0 22 22" aria-hidden="true" focusable="false"><path d="M2 6h13v12H2z M2 9h13 M6 3h13v12"/></svg>Window layout</h2>
+            <div class="zone-controls">
+              <button id="byWindow" type="button" role="switch" aria-checked="false" aria-controls="windowOrderLabel">Group by window <span class="switch-track" aria-hidden="true"></span><span id="group-state" aria-hidden="true">Off</span></button>
+              <div id="windowOrderLabel" inert><div id="windowOrder" class="zone-choices" role="group" aria-label="Window order">
+                <button type="button" data-value="custom">Custom order</button>
+                <button type="button" data-value="tabs">Follow tab sort</button>
+                <button type="button" data-value="created-oldest">Created · oldest first</button>
+                <button type="button" data-value="created-newest">Created · newest first</button>
+                <button type="button" data-value="touched-oldest">Last touched · oldest first</button>
+                <button type="button" data-value="touched-newest">Last touched · newest first</button>
+              </div></div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <div id="bar">
+        <label><input type="checkbox" id="all" aria-label="Select all matching tabs" title="Select all matching tabs" /></label
+        ><span id="count"></span>
+        <div class="table-search">
+          <button id="search-toggle" aria-label="Search tabs" title="Search tabs (/)" aria-controls="search" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="5.5"/><path d="m12 12 5 5"/></svg></button>
+          <input id="search" type="search" aria-label="Search tabs" placeholder="Search titles, sites, or URLs…" inert />
+        </div>
+        <button id="foldAll" inert>Collapse all</button>
+        <button id="save">Save view</button>
+        <button id="move-selected" hidden title="Move selected tabs (M)">Move to window…</button>
+        <button id="actions">Actions ▾</button>
+      </div>
+      <div id="list" tabindex="0" aria-label="Tabs"></div>
+      <div id="status" role="status"></div>
+      <section id="panel" hidden>
+        <div class="panelhead">
+          <h2 id="pt"></h2>
+          <button id="dismiss" type="button" aria-label="Close dialog" title="Close (Esc)"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="m4 4 8 8M12 4l-8 8"/></svg></button>
+        </div>
+        <div id="body"></div>
+      </section>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

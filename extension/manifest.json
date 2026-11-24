@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Sunshine Tabs",
+  "version": "1.0.0",
+  "description": "Connect this Chrome profile to your local tab dashboard.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoABjTeIBjC5xvIgx8xk8CA8JVHXvFXmd1wC025FjStcDC/lABF9P6phTSU/q9vye975k/P3pqoP9neBB/fU9XB7T9Wx/I/AOrrSLvxtW5G7V176DrIZYWniZp/ynlmHVW/gNbC9W3qcbQygGUg5SahJy1ILU89/pOv3XqWNTcnLR2Xa4Wz09jUW4VKlzFnA59/1QgF2punuYCYhSIPXltSjXexGjxiFRH3XWVn2sRPwgRlbpmuB7nQFXNI/uoXyuKvgZ4Aa87zCEVTmubM52EbIfkpYrYuY4XqosBcGpSwlA6Z9gv7m75k1B8DIlmp/HjsvHQiWloz2R991rr0jiEwIDAQAB",
+  "permissions": ["tabs", "tabGroups", "storage", "alarms", "favicon", "debugger"],
+  "host_permissions": ["http://127.0.0.1/*"],
+  "background": {
+    "service_worker": "worker.js",
+    "type": "module"
+  },
+  "incognito": "not_allowed"
+}
