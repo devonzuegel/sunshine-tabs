@@ -658,10 +658,9 @@ function changeView(next, savedView = null) {
   list.scrollTop = 0;
   render();
 }
-function addReviewCount(button, count, unit) {
-  if (!count) return;
-  const description = count + " " + unit + (count === 1 ? "" : "s") + " to review";
-  const badge = el("span", String(count), "review-count");
+function addCount(button, count, unit, review = false) {
+  const description = count + " " + unit + (count === 1 ? "" : "s") + (review ? " to review" : "");
+  const badge = el("span", String(count), review && count ? "review-count" : "view-count");
   badge.setAttribute("aria-hidden", "true");
   button.title = description;
   button.setAttribute("aria-label", button.textContent + ", " + description);
@@ -682,16 +681,14 @@ function render() {
     ...sections.map((n) => {
       const b = btn(n, () => navigate(n));
       b.prepend(headerIcon(sectionIcons[n]));
-      if (n === "Duplicates") addReviewCount(b, sets.length, "duplicate URL group");
+      if (n === "Open tabs") addCount(b, state.tabs.length, "open tab");
+      if (n === "Duplicates") addCount(b, sets.length, "duplicate URL group", true);
+      if (n === "Parked sets") addCount(b, state.sets.length, "parked set");
       return markCurrent(b, page === n);
     }),
   );
   const dailyButton = btn(suggestedView, () => navigate(suggestedView));
-  addReviewCount(dailyButton, state.suggestions?.windows?.length, "window");
-  if (!state.suggestions?.windows?.length) {
-    dailyButton.append(el("span", "0", "view-count"));
-    dailyButton.setAttribute("aria-label", suggestedView + ", 0 windows to review");
-  }
+  addCount(dailyButton, state.suggestions?.windows?.length || 0, "window", true);
   markCurrent(dailyButton, page === suggestedView);
   $("views").replaceChildren(
     dailyButton,
@@ -948,12 +945,6 @@ function paint() {
         heading.classList.add("pinned-window");
         if (list.scrollTop > index * rowHeight) {
           heading.classList.add("is-stuck");
-          const nameSlot = el("div", null, "pinned-name-slot");
-          const name = controls.children[1];
-          name.replaceWith(nameSlot);
-          const badge = el("span", "Pinned", "pin-badge");
-          badge.title = "This window heading stays visible while you scroll its tabs";
-          nameSlot.append(badge, name);
         }
         // Slide this heading out as the next window reaches the sticky header.
         const next = displayRows.findIndex((entry, n) => n > index && entry.section != null);
