@@ -1,27 +1,30 @@
 # Sunshine Tabs
 
-A local dashboard for the tabs in one regular Chrome profile. A Manifest V3 extension publishes tab metadata to a Node bridge on the Mac. The dashboard and its WebMCP tools share the same in-page view, selection, and review panel.
+Sunshine Tabs helps you sort through open Chrome tabs across windows. Find tabs you’ve left untouched, review duplicate URLs, move tabs in batches, and park work you want to reopen later. You can use the dashboard in a browser or beside a conversation in the ChatGPT desktop app.
 
-## Launch
+![Sunshine Tabs demo with fictional tabs in two Chrome windows](docs/sunshine-tabs-demo.gif)
 
-1. Use Node.js 20 or later. Double-click **Launch.command** or run the commands below. There are no package dependencies for the app.
-2. In the Chrome profile you want to manage, open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select the project's **extension** folder. Devon's installed copy already connects through its original installation path.
-3. Open **http://127.0.0.1:47381/** in the ChatGPT desktop app’s built-in browser. Leave that page beside the conversation. A connected dashboard lists regular-profile tabs across normal windows. A site-tools arrow in the address bar indicates discovery. Account, model, and browser permissions affect availability. [OpenAI site-tools guide](https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app)
-4. Try “Show me tabs I haven’t touched in a week, oldest first,” “Which of these look like investor research?” and “Move those into a new window.” Review the list and press **Apply** in the page to execute a batch.
+## Get started
 
-```sh
-cd ~/dev/sunshine-tabs
-npm start
-```
+You’ll need **macOS**, **Google Chrome**, and **Node.js 20 or later**. The app has no npm dependencies.
 
-Keep the bridge running while using the dashboard. Stop a foreground launch with Ctrl+C. The extension reconnects when the bridge is back. Reload the extension in Chrome after changing its worker code.
+1. [Download the ZIP](https://github.com/devonzuegel/sunshine-tabs/archive/refs/heads/main.zip) and extract it, or clone this repository.
+2. Open Terminal in the extracted project folder and run `npm start`. You can also double-click **Launch.command** in Finder.
+3. In the Chrome profile you want to manage, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select the project’s **extension** folder.
+4. Open [Sunshine Tabs](http://127.0.0.1:47381/) and look for the green connection dot. Keep Chrome and the local bridge running while you use the dashboard.
+
+To stop the bridge, press **Ctrl+C** in its Terminal window. The extension reconnects when you start the bridge again.
+
+### Use it alongside ChatGPT
+
+Open the same dashboard address in the ChatGPT desktop app’s built-in browser. When site tools are available, try “Show me tabs I haven’t touched in a week, oldest first” or “Which tabs look like trip planning?” For actions such as moving tabs, review the exact list and click **Apply** in the dashboard. Site-tool availability depends on your account, model, and browser permissions. [OpenAI site-tools guide](https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app)
 
 ## Controls
 
 - Search titles, sites and URL paths. Sort by last touched, opened, or Chrome order. Select either time direction. Chrome supplies last-access time. The extension records creation events starting at installation. Unknown creation times follow dated tabs in both directions.
-- Click a row to activate it in regular Chrome. Click checkboxes, Shift-click a range, or select **All matching**. The selection count includes hidden tabs. Saved views reevaluate searches, age filters and ordering against current tabs.
+- Click a row to activate it in regular Chrome. Click checkboxes, Shift-click a range, or use the checkbox above the list to select all matches. The selection count includes hidden tabs. Saved views reevaluate searches, age filters and ordering against current tabs.
 - **Actions** opens move, group, close, Markdown copy and park. A review freezes affected identities and URLs. Move or group across windows, including creating a destination. New groups use the first selected tab’s window. Parking writes a named set to disk before issuing any closes.
-- **Duplicates** compares complete URL strings. Choose a copy by window, group, last touched and ID, then review the others. **Parked sets** reopens saved URLs. **History** shows per-tab outcomes, eligible retries and undo. Restore attempts preserve window membership, group title, color and collapse state, pinned state and tab positions. Chrome may require a replacement window or group. Reopening a URL starts a new page session. Page form state, navigation history and original tab IDs cannot be recovered by reopening.
+- **Duplicates** compares complete URL strings. Choose a copy to keep or review every copy for closing. **Parked sets** reopens saved URLs. **History** shows per-tab outcomes, eligible retries and undo. Restore attempts preserve window membership, group title, color and collapse state, pinned state and tab positions. Chrome may require a replacement window or group. Reopening a URL starts a new page session. Page form state, navigation history and original tab IDs cannot be recovered by reopening.
 - Press **/** for search, **↑/↓** to navigate, **Space** to select, **Shift+Space** for a range, **Enter** to activate, and **⌘/Ctrl+A** to select matches. **M/G/P/X/C** move, group, park, close or copy. **Esc** dismisses a panel. Form controls also support normal keyboard navigation.
 
 ## Local state and access
@@ -30,7 +33,7 @@ The bridge listens only on IPv4 loopback. It checks the exact Host, requesting O
 
 The live inventory stays in memory. Creation times are held in extension session storage. Named views, parked URLs and batch records are written atomically to **data/library.json**, with owner-only file permissions. Chrome can clear extension session storage on restart, reload or update. History preserves saved URLs across sessions. Undoing moves requires the original session. Keep local data private.
 
-The dashboard loads no remote assets. Site tools return counts for filters, suggestions and previews. For semantic review, candidate inspection can return a bounded page of IDs, titles and domains from the current view. Local keyword matching can highlight candidates without returning any tab metadata. The request and tool response can enter your ChatGPT conversation. Site tools prepare previews. Clicking Apply authorizes the exact batch on the page.
+The dashboard serves its assets locally. Site tools return counts for filters, suggestions and previews. For semantic review, candidate inspection can return a bounded page of IDs, titles and domains from the current view. Local keyword matching can highlight candidates without returning any tab metadata. The request and tool response can enter your ChatGPT conversation. Site tools prepare previews. Clicking Apply authorizes the exact batch on the page.
 
 If a connection drops after Chrome receives a command, History marks its outcome unconfirmed and excludes it from automatic retry. After a bridge restart, unfinished batches are marked interrupted. Check Chrome before manually repeating uncertain actions. Known successes remain available for undo.
 

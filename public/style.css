@@ -63,10 +63,13 @@ button:hover,
 select:hover {
   background: light-dark(#eff4ee, #354438);
 }
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
-  outline: 2px solid light-dark(#347653, #95d5aa);
+/* Use an inset cue for keyboard focus, without ringing the whole tab list. */
+:focus { outline: none; }
+:focus-visible:not(#list) {
+  box-shadow: inset 0 -2px light-dark(#577461, #99b6a1);
+}
+@media (forced-colors: active) {
+  :focus-visible { outline: 2px solid Highlight; }
 }
 nav button {
   display: block;
@@ -304,7 +307,6 @@ li {
 .tab-table thead th:has(button) {padding:0;}
 .tab-table th button {display:flex;align-items:center;gap:3px;width:100%;height:32px;padding:0 5px;border:0;border-radius:0;background:transparent;font:inherit;text-align:left;}
 .tab-table th button:hover,.tab-table th button:focus-visible {background:light-dark(#dce8dc, #354438);}
-.tab-table th button:focus-visible {outline-offset:-2px;}
 .sort-arrow {opacity:.45;}
 th[aria-sort] button {color:light-dark(#244f34, #c0eacb);}
 th[aria-sort] .sort-arrow {opacity:1;}
@@ -423,16 +425,16 @@ th[aria-sort] .sort-arrow {opacity:1;}
 .view-zones {
   display:grid;
   grid-template-columns:minmax(155px, .78fr) minmax(215px, 1.12fr) minmax(325px, 1.7fr);
-  gap:8px;
-  margin:10px 0;
+  gap:6px;
+  margin:6px 0;
 }
-.view-zone {padding:10px 12px;border-radius:8px;min-width:0;}
-.view-zone h2 {display:flex;align-items:center;gap:7px;font:650 14px/1.4 var(--ui-font);margin:0 0 7px;}
+.view-zone {padding:6px 9px;border-radius:8px;min-width:0;}
+.view-zone h2 {display:flex;align-items:center;gap:7px;font:650 14px/1.4 var(--ui-font);margin:0 0 3px;}
 .filter-zone {background:light-dark(#f1f5ef,#222e26);}
 .sort-zone {background:light-dark(#eff3f6,#242d35);}
 .layout-zone {background:light-dark(#f5f2eb,#302e27);}
-.zone-controls, #windowOrderLabel {display:flex;align-items:center;flex-wrap:wrap;gap:5px;}
-.zone-controls :is(select,button) {border-color:transparent;font-size:12px;padding:5px 7px;min-height:30px;max-width:100%;}
+.zone-controls, #windowOrderLabel {display:flex;align-items:center;flex-wrap:wrap;gap:3px;}
+.zone-controls :is(select,button) {border-color:transparent;font-size:12px;padding:3px 6px;min-height:24px;max-width:100%;}
 #windowOrderLabel {font-size:12px;}
 #bar {flex-wrap:wrap;}
 @media(max-width:750px) {
@@ -550,7 +552,7 @@ body:has(#panel:not([hidden]))::after,
 .tab-table.by-window .row td:first-child {padding-inline-start:22px;}
 
 .tab-table .window-controls .window-star {grid-column:-2;justify-self:end;justify-content:center;
-  width:30px;padding:0;font-size:21px;line-height:1;}
+  width:30px;padding:0;font-size:18px;line-height:1;}
 .window-star[aria-pressed="true"] {color:light-dark(#8c5c05,#f1c86e);}
 
 .tab-table.without-site {min-width:712px;}
@@ -619,7 +621,7 @@ main:has(#byWindow[aria-checked="true"]) .select-all-target {margin-inline-start
 .tab-table .window-section.selected-window {background-color:light-dark(#c9dfef,#314b61);color:light-dark(#24435d,#dfedfa);outline:2px solid light-dark(#537fa2,#89afcd);outline-offset:-2px;user-select:none;}
 
 /* Keep the window separator visible across sticky, starred and hover backgrounds. */
-.tab-table th.window-boundary {border-top:4px solid var(--dashboard-background);background-clip:padding-box;}
+.tab-table th.window-boundary {border-top:8px solid var(--dashboard-background);background-clip:padding-box;}
 
 .review-count {display:inline-grid;place-items:center;vertical-align:middle;margin-inline-start:5px;min-width:16px;height:16px;padding-inline:4px;border-radius:99px;background:light-dark(#934515,#f1ba84);color:light-dark(white,#38220e);font:650 10px/1 var(--ui-font);font-variant-numeric:tabular-nums;}
 
@@ -628,11 +630,11 @@ main:has(#byWindow[aria-checked="true"]) .select-all-target {margin-inline-start
 .zone-choices button {background:transparent;}
 .zone-choices button[aria-pressed="true"] {background:light-dark(#d4e2d6,#405747);}
 #windowOrderLabel {flex-basis:100%;}
-#direction-field {flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:5px 8px;margin-top:6px;}
+#direction-field {flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px;margin-top:2px;}
 #foldAll[inert], #direction-field[inert], #windowOrderLabel[inert] {visibility:hidden;}
 #direction-label {font-size:11px;font-weight:600;color:light-dark(#506174,#b7c7d7);}
 #direction {display:inline-flex;padding:2px;border-radius:7px;background:light-dark(#d7dfe6,#17212a);}
-#direction button {background:transparent;border:0;border-radius:5px;padding:4px 8px;min-height:26px;}
+#direction button {background:transparent;border:0;border-radius:5px;padding:2px 8px;min-height:24px;}
 #direction button[aria-pressed="true"] {background:light-dark(#fff,#435a6e);}
 #direction button:focus-visible {position:relative;}
 
@@ -668,9 +670,14 @@ main:has(#byWindow[aria-checked="true"]) .select-all-target {margin-inline-start
 .tab-table th.window-section:hover::after {border-color:light-dark(rgb(71 90 74 / 32%),rgb(178 197 182 / 30%));}
 
 .tab-table .window-section.pinned-window.is-stuck {
-  color-scheme:dark;
-  background-color:rgb(25 35 29 / 88%);
-  color:#e2eee5;
+  border-radius:4px;
+  background-color:light-dark(rgb(255 255 255 / 60%),rgb(25 35 29 / 60%));
+  color:light-dark(#355640,#e2eee5);
   backdrop-filter:blur(10px);
   box-shadow:0 2px 5px #0002;
+}
+
+.tab-table th.window-section.pinned-window.is-stuck::after {
+  border-color:#fff;
+  border-radius:inherit;
 }
